@@ -7,3 +7,4 @@ build:
 
 clean:
 	rm -f myprog
+	rm -f *.mp4
