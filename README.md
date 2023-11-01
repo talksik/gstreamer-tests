@@ -24,6 +24,12 @@ gst-launch-1.0 -e v4l2src device="/dev/video0" ! videoconvert ! queue ! x264enc 
 ffmpeg -f v4l2 -framerate 25 -video_size 640_480 -i dev/video0 output.mkv
 
 # video + audio record to file
-./ffmpeg -f alsa -i hw:0 -f video4linux2 -i /dev/video0
+ffmpeg -f alsa -i hw:0 -f video4linux2 -i /dev/video0
+
+# audio only
+ffmpeg -f alsa -i hw:0 output.mp3
+
+# another one with encoder set and also using pulse
+ffmpeg -f pulse -ac 2 -i default -f v4l2 -i /dev/video0 -t 00:00:20 -vcodec libx264 record.mp4
 
 ```
