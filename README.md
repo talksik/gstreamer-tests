@@ -16,6 +16,11 @@ gst-launch-1.0 -e v4l2src device="/dev/video0" ! videoconvert ! queue ! x264enc 
 
 # same thing but works fine after restart. make sure alsa settings not screwed up tho?
 gst-launch-1.0 -e v4l2src device="/dev/video0" ! videoconvert ! queue ! x264enc tune=zerolatency ! mux. alsasrc ! queue ! audioconvert ! audioresample ! voaacenc ! aacparse ! qtmux name=mux ! filesink location=test.mp4 sync=false
+
+# WITH vaapih264enc (hw acceleration if hardware + driver support on system)
+# note: weird that we need h264parse maybe because of needed mux sink capabilities
+gst-launch-1.0 -e v4l2src device="/dev/video0" ! videoconvert ! queue ! vaapih264enc ! h264parse ! mux. alsasrc ! queue ! audioconvert ! audioresample ! voaacenc ! aacparse ! qtmux name=mux ! filesink location=test.mp4 sync=false
+
 ```
 
 # ffmpeg
